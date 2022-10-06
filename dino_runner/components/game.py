@@ -101,9 +101,9 @@ class Game:
         self.playing = 0 
         self.death_count += 1 
     
-    def draw_message(self, message, screen_width, screen_heigth, parameter, size):
+    def draw_message(self, message, width, heigth, parameter, size):
         font =  pygame.font.SysFont(FONT_STYLE, size)
         text_component = font.render(f"{message} : {parameter}", True, (0, 0, 0))
         text_rect = text_component.get_rect()
-        text_rect.center = (screen_width, screen_heigth)
+        text_rect.center = (width, heigth)
         self.screen.blit(text_component, text_rect)
