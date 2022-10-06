@@ -58,7 +58,7 @@ class Game:
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
-        self.score.draw(self.screen)
+        self.score.draw(self.draw_message )
         pygame.display.update()
         pygame.display.flip()
 
@@ -75,17 +75,14 @@ class Game:
         self.screen.fill((255, 255, 255)) #pintar ventana 
         half_screen_heigth = SCREEN_HEIGHT //2
         half_screen_width = SCREEN_WIDTH // 2
+
         if self.death_count == 0:  #dar mensaje de bienvenida
-            font =  pygame.font.SysFont(FONT_STYLE, 30)
-            text_component = font.render("Press Any Key to Start", True, (0, 0, 0))
-            text_rect = text_component.get_rect()
-            text_rect.center = (half_screen_width, half_screen_heigth)
-            self.screen.blit(text_component, text_rect)
+            self.draw_message("Press Any Key to Start", half_screen_width, half_screen_heigth, "", 50)
         else:
-            pass
-            #numero de muertes actuales
-            #mostrar el puntaje
-            #mostrar mensaje de volver a jugar (tarea)
+            self.draw_message("Deaths: ", 1000, 50, self.death_count, 30)
+            self.draw_message("Last Score", 1000, 70, self.score.score, 30)
+            self.draw_message("Do You Want to Play Again? ", half_screen_width,half_screen_heigth, "", 50)
+    
         self.screen.blit(RUNNING[0], (half_screen_width - 30, half_screen_heigth - 140)) #mostrar un icono
         pygame.display.update() #actualizar ventana
         self.handle_key_events_on_menu()  #escuchar eventos 
@@ -95,8 +92,17 @@ class Game:
             if event.type == pygame.QUIT:
                 self.executing = False
             elif event.type == pygame.KEYDOWN:
+                if self.death_count >=1:
+                    self.score.score = 0
                 self.run()
 
     def on_death(self):
         self.playing = 0 
         self.death_count += 1 
+    
+    def draw_message(self, message, screen_width, screen_heigth, parameter, size):
+        font =  pygame.font.SysFont(FONT_STYLE, size)
+        text_component = font.render(f"{message} : {parameter}", True, (0, 0, 0))
+        text_rect = text_component.get_rect()
+        text_rect.center = (screen_width, screen_heigth)
+        self.screen.blit(text_component, text_rect)

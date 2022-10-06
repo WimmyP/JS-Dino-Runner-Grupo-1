@@ -12,9 +12,5 @@ class Score:
         if self.score % 100 == 0:
             game.game_speed += 2
 
-    def draw(self, screen):
-        font =  pygame.font.SysFont(FONT_STYLE, 22)
-        text_component = font.render(f"Points:{self.score}", True, (0, 0, 0))
-        text_rect = text_component.get_rect()
-        text_rect.center = (1000, 50)
-        screen.blit(text_component, text_rect)
+    def draw(self, draw_message):
+        draw_message("Points: ", 1000, 50, self.score, 22)
