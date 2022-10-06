@@ -17,4 +17,3 @@ class Obstacle(Sprite): #nuestra clase hereda de la clase Sprite -> CHija(CPadre
     
     def draw(self, screen):
         screen.blit(self.images[self.type], self.rect) #self.rect.x, self.rect.y)
-        
