@@ -94,6 +94,7 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if self.death_count >=1:
                     self.score.score = 0
+                    self.player.jump_velocity = 8.5
                 self.run()
 
     def on_death(self):
