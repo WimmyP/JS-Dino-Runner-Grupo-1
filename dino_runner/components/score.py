@@ -13,4 +13,7 @@ class Score:
             game.game_speed += 2
 
     def draw(self, draw_message):
-        draw_message("Points: ", 1000, 50, self.score, 22)
+        draw_message(f"Points: {self.score}", 1000, 50, 22)
+
+    def reset_score(self):
+        self.score = 0
