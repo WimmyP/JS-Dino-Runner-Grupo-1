@@ -1,10 +1,12 @@
 import pygame
+from dino_runner.components.dino_enemy import DinoEnemy
 from dino_runner.components.dinosaur import Dinosaur
+from dino_runner.components.obstacles.obstacle import Obstacle
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 
-from dino_runner.utils.constants import BG, DEFAULT_TYPE, ICON, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD_TYPE, TITLE, FPS, FONT_STYLE
+from dino_runner.utils.constants import BG, DEFAULT_TYPE, ICON, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD, SHIELD_TYPE, TITLE, FPS, FONT_STYLE
 
 
 class Game:
@@ -23,6 +25,8 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
+
+        self.enemy = DinoEnemy()
 
         self.death_count = 0
         self.score = Score()
@@ -61,6 +65,8 @@ class Game:
         self.power_up_manager.update(self.game_speed, self.player, self.score.score)
         self.score.update(self)
 
+        self.enemy.update(self.score.score, self.game_speed, self.player, self.on_death)
+
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
@@ -70,6 +76,9 @@ class Game:
         self.power_up_manager.draw(self.screen)
         self.score.draw(self.draw_message)
         self.draw_power_up_active()
+
+        self.enemy.draw(self.screen)
+
         pygame.display.update()
         pygame.display.flip()
 
@@ -130,3 +139,4 @@ class Game:
         else:
             self.player.has_power_up = False
             self.player.type = DEFAULT_TYPE
+
