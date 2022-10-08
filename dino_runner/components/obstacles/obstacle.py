@@ -1,7 +1,7 @@
 from pygame import Surface
 from pygame.sprite import Sprite
 
-from dino_runner.utils.constants import SCREEN_WIDTH #import completo
+from dino_runner.utils.constants import BIRD, SCREEN_WIDTH #import completo
 
 class Obstacle(Sprite): #nuestra clase hereda de la clase Sprite -> CHija(CPadre):
     def __init__(self, images, type):

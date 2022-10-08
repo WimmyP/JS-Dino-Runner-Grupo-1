@@ -2,6 +2,7 @@ from asyncio import shield
 from random import randint
 
 import pygame
+from dino_runner.components.powerups.hammer import Hammer
 
 from dino_runner.components.powerups.shield import Shield
 
@@ -14,7 +15,11 @@ class PowerUpManager():
     def generate_power_up(self, score):
         if len(self.power_ups) == 0 and self.when_appears == score:
             self.when_appears += randint(200, 300) #para que se genere cuando lcancemos el score 
-            self.power_ups.append(Shield())
+            rand_choice = randint(0,1)
+            if rand_choice == 0:
+                self.power_ups.append(Shield())
+            else:
+                self.power_ups.append(Hammer())
     
     def update(self, game_speed, player, score):
         self.generate_power_up(score)

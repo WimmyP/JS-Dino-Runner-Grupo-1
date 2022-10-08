@@ -7,7 +7,7 @@ from dino_runner.components.player_hearts.heart_manager import Heart_Manager
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 
-from dino_runner.utils.constants import BG, DEFAULT_TYPE, ICON, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD, SHIELD_TYPE, TITLE, FPS, FONT_STYLE
+from dino_runner.utils.constants import BG, DEFAULT_TYPE, HAMMER_TYPE, ICON, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD, SHIELD_TYPE, TITLE, FPS, FONT_STYLE
 
 
 class Game:
@@ -28,7 +28,7 @@ class Game:
         self.power_up_manager = PowerUpManager()
         self.heart_manager = Heart_Manager()
 
-        self.enemy = DinoEnemy()
+        # self.enemy = DinoEnemy()
 
         self.death_count = 0
         self.score = Score()
@@ -51,6 +51,7 @@ class Game:
 
     def reset_game(self):
         self.game_speed = 20
+        self.draw_background()
         self.obstacle_manager.reset_obstacles()
         self.score.reset_score()
         self.power_up_manager.reset_power_ups()
@@ -68,7 +69,7 @@ class Game:
         self.power_up_manager.update(self.game_speed, self.player, self.score.score)
         self.score.update(self)
 
-        self.enemy.update(self.score.score, self.game_speed, self.player, self.on_death)
+        # self.enemy.update(self.score.score, self.game_speed, self.player, self.on_death)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -81,8 +82,7 @@ class Game:
         self.draw_power_up_active()
         self.heart_manager.draw(self.screen)
 
-        self.enemy.draw(self.screen)
-
+        # self.enemy.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
@@ -121,10 +121,10 @@ class Game:
                 self.run()
 
     def on_death(self):
-        has_shield = self.player.type == SHIELD_TYPE
-        is_invencible = has_shield or self.heart_manager.heart_count > 0
+        has_power_ups = self.player.type == SHIELD_TYPE or self.player.type == HAMMER_TYPE
+        is_invencible = has_power_ups or self.heart_manager.heart_count > 0
 
-        if not has_shield:
+        if not has_power_ups:
             self.heart_manager.reduce_heart()
         if not is_invencible:
             pygame.time.delay(500)
