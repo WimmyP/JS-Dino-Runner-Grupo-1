@@ -1,3 +1,4 @@
+from uuid import RESERVED_FUTURE
 import pygame
 from dino_runner.components.dino_enemy import DinoEnemy
 from dino_runner.components.dinosaur import Dinosaur
@@ -7,7 +8,7 @@ from dino_runner.components.player_hearts.heart_manager import Heart_Manager
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 
-from dino_runner.utils.constants import BG, DEFAULT_TYPE, HAMMER_TYPE, ICON, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD, SHIELD_TYPE, TITLE, FPS, FONT_STYLE
+from dino_runner.utils.constants import BG, DEFAULT_TYPE, HAMMER_TYPE, ICON, RESET, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD, SHIELD_TYPE, TITLE, FPS, FONT_STYLE
 
 
 class Game:
@@ -56,6 +57,8 @@ class Game:
         self.score.reset_score()
         self.power_up_manager.reset_power_ups()
         self.heart_manager.reset_heart()
+
+
 
     def events(self):
         for event in pygame.event.get():
@@ -106,6 +109,8 @@ class Game:
             self.draw_message(f"Deaths: {self.death_count}", 1000, 50, 30)
             self.draw_message(f"Last Score: {self.score.score}", 1000, 70, 30)
             self.draw_message("Do You Want to Play Again? ", half_screen_width,half_screen_heigth, 50)
+
+            self.screen.blit(RESET, (half_screen_width - 30, half_screen_heigth +20) )
     
         self.screen.blit(RUNNING[0], (half_screen_width - 30, half_screen_heigth - 140)) #mostrar un icono
         pygame.display.update() #actualizar ventana
