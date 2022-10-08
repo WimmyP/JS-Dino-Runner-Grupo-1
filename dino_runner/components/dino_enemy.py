@@ -42,7 +42,7 @@ class DinoEnemy(Sprite):  #tira nubes cada tiempo random
         self.throw()  
 
         self.obstacle.update(game_speed, player, on_death)
-
+        
         if self.step_index >= 9:
             self.step_index = 0  
 

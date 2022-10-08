@@ -3,6 +3,7 @@ from dino_runner.components.dino_enemy import DinoEnemy
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle import Obstacle
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.player_hearts.heart_manager import Heart_Manager
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 
@@ -25,6 +26,7 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
+        self.heart_manager = Heart_Manager()
 
         self.enemy = DinoEnemy()
 
@@ -52,6 +54,7 @@ class Game:
         self.obstacle_manager.reset_obstacles()
         self.score.reset_score()
         self.power_up_manager.reset_power_ups()
+        self.heart_manager.reset_heart()
 
     def events(self):
         for event in pygame.event.get():
@@ -76,6 +79,7 @@ class Game:
         self.power_up_manager.draw(self.screen)
         self.score.draw(self.draw_message)
         self.draw_power_up_active()
+        self.heart_manager.draw(self.screen)
 
         self.enemy.draw(self.screen)
 
@@ -117,7 +121,11 @@ class Game:
                 self.run()
 
     def on_death(self):
-        is_invencible = self.player.type == SHIELD_TYPE
+        has_shield = self.player.type == SHIELD_TYPE
+        is_invencible = has_shield or self.heart_manager.heart_count > 0
+
+        if not has_shield:
+            self.heart_manager.reduce_heart()
         if not is_invencible:
             pygame.time.delay(500)
             self.playing = False

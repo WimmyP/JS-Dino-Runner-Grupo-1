@@ -73,3 +73,4 @@ DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
 
 FONT_STYLE = "SysFont"
+HEART_COUNT =  3
